@@ -22,9 +22,31 @@ public class TimeTrackerApp {
         // Beispiel: Ein Zeiteintrag bearbeiten
         dbHandler.updateTimeEntry(1, "2024-12-12", "08:00", "16:00", "Updated Project", 8.0, "Updated Theme");
 
-         */
+
 
         // Verbindung schließen
-        dbHandler.close();
+        //dbHandler.close();
+
+         */
+
+        /*
+        Timer timer = new Timer();
+
+        // Beispiel für Timer-Funktion
+        timer.startTimer();
+
+        // Simuliere etwas Wartezeit (könnte durch tatsächliche Arbeit ersetzt werden)
+        try {
+            Thread.sleep(5000);  // 5 Sekunden warten
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        timer.stopTimer("Development", "Project Work");
+        timer.showAllEntries();
+
+        timer.close();
+         */
+
     }
 }
