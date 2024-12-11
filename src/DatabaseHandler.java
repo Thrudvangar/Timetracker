@@ -5,7 +5,6 @@ public class DatabaseHandler {
 
     public DatabaseHandler() {
         connect();
-        createTables();
     }
 
 
@@ -15,33 +14,6 @@ public class DatabaseHandler {
             String url = "jdbc:sqlite:timetracker.db";
             conn = DriverManager.getConnection(url);
             System.out.println("Database connection established.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-
-    // Create database tables if inexistent
-    private void createTables() {
-        String createThemeTable = "CREATE TABLE IF NOT EXISTS theme (" +
-                "id INTEGER PRIMARY KEY," +
-                "description TEXT UNIQUE" +
-                ");";
-
-        String createTimeTrackingTable = "CREATE TABLE IF NOT EXISTS time_tracking (" +
-                "id INTEGER PRIMARY KEY," +
-                "date TEXT," +
-                "start_time TEXT," +
-                "end_time TEXT," +
-                "project TEXT," +
-                "work_duration REAL," +
-                "theme TEXT" +
-                ");";
-
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute(createThemeTable);
-            stmt.execute(createTimeTrackingTable);
-            System.out.println("Programm successfully initialized.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
