@@ -8,7 +8,8 @@ public class DatabaseHandler {
         createTables();
     }
 
-    // Verbindung zur SQLite-Datenbank herstellen
+
+    // Connect to SQLite-database
     private void connect() {
         try {
             String url = "jdbc:sqlite:timetracker.db";
@@ -19,7 +20,8 @@ public class DatabaseHandler {
         }
     }
 
-    // Tabellen erstellen, falls sie nicht existieren
+
+    // Create database tables if inexistent
     private void createTables() {
         String createThemeTable = "CREATE TABLE IF NOT EXISTS theme (" +
                 "id INTEGER PRIMARY KEY," +
@@ -45,7 +47,8 @@ public class DatabaseHandler {
         }
     }
 
-    // Thema hinzufügen
+
+    // Add theme to theme database
     public void addTheme(String description) {
         String sql = "INSERT OR IGNORE INTO theme (description) VALUES (?)";
         try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -57,7 +60,8 @@ public class DatabaseHandler {
         }
     }
 
-    // Zeiterfassungseintrag hinzufügen
+
+    // Add entry
     public void addTimeEntry(String date, String startTime, String endTime, String project, double workDuration, String theme) {
         String sql = "INSERT INTO time_tracking (date, start_time, end_time, project, work_duration, theme) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -74,7 +78,49 @@ public class DatabaseHandler {
         }
     }
 
-    // Alle Zeiterfassungseinträge anzeigen
+
+    //Update entry
+    public void updateTimeEntry(int id, String date, String startTime, String endTime, String project, double workDuration, String theme) {
+        String sql = "UPDATE time_tracking SET date = ?, start_time = ?, end_time = ?, project = ?, work_duration = ?, theme = ? WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, date);
+            pstmt.setString(2, startTime);
+            pstmt.setString(3, endTime);
+            pstmt.setString(4, project);
+            pstmt.setDouble(5, workDuration);
+            pstmt.setString(6, theme);
+            pstmt.setInt(7, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Time entry with ID " + id + " updated successfully.");
+            } else {
+                System.out.println("No entry found with ID " + id);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    // Delete entry
+    public void removeTimeEntry(int id) {
+        String sql = "DELETE FROM time_tracking WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Time entry with ID " + id + " removed successfully.");
+            } else {
+                System.out.println("No entry found with ID " + id);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    // Show all database entries
     public void showAllEntries() {
         String sql = "SELECT * FROM time_tracking";
         try (Statement stmt = conn.createStatement();
@@ -96,7 +142,7 @@ public class DatabaseHandler {
         }
     }
 
-    // Verbindung zur Datenbank schließen
+    // Close database connection
     public void close() {
         try {
             if (conn != null) {

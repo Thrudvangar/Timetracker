@@ -12,6 +12,12 @@ public class TimeTrackerApp {
         // Beispiel: Alle Einträge anzeigen
         dbHandler.showAllEntries();
 
+        // Beispiel: Zeiteintrag entfernen
+        dbHandler.removeTimeEntry(1);
+
+        // Beispiel: Alle Einträge anzeigen
+        dbHandler.showAllEntries();
+
         // Verbindung schließen
         dbHandler.close();
     }
